@@ -22,10 +22,10 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpGet("get-all-books")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,[FromQuery] string? sortBy, [FromQuery] bool isAscending = true,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
         {
             // su dung repository pattern
-            var allBooks = _bookRepository.GetAllBooks();
+            var allBooks = _bookRepository.GetAllBooks(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allBooks);
         }
 
