@@ -39,6 +39,11 @@ namespace WebAPI_simple.Controllers
         [HttpPost("add-author")]
         public IActionResult AddAuthor([FromBody] AddAuthorRequestDTO addAuthorRequestDTO)
         {
+            if (!ValidateAuthorName(addAuthorRequestDTO?.FullName))
+            {
+                return BadRequest(ModelState);
+            }
+
             var authorAdd = _authorRepository.AddAuthor(addAuthorRequestDTO);
             return Ok(authorAdd);
         }
@@ -46,6 +51,11 @@ namespace WebAPI_simple.Controllers
         [HttpPut("update-author-by-id/{id}")]
         public IActionResult UpdateAuthorById(int id, [FromBody] AuthorNoIdDTO authorDTO)
         {
+            if (!ValidateAuthorName(authorDTO?.FullName))
+            {
+                return BadRequest(ModelState);
+            }
+
             var authorUpdate = _authorRepository.UpdateAuthorById(id, authorDTO);
             return Ok(authorUpdate);
         }
@@ -66,5 +76,22 @@ namespace WebAPI_simple.Controllers
             }
             return Ok(result);
         }
+        #region Private methods
+        private bool ValidateAuthorName(string? fullName)
+        {
+            //2.kh đc để trống
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                ModelState.AddModelError("FullName", "FullName cannot be empty");
+            }
+            //2.độ dài tối thiểu 3 ký tự
+            else if (fullName.Trim().Length < 3)
+            {
+                ModelState.AddModelError("FullName", "FullName must be at least 3 characters");
+            }
+
+            return ModelState.ErrorCount == 0;
+        }
+        #endregion
     }
 }

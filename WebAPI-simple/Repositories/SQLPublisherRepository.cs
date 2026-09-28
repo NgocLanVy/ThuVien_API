@@ -95,5 +95,9 @@ namespace WebAPI_simple.Repositories
             };
             return result;
         }
+        public bool PublisherNameExists(string name, int? excludeId = null)
+        {
+            return _dbContext.Publishers.Any(p => p.Name == name && (excludeId == null || p.Id != excludeId));
+        }
     }
 }

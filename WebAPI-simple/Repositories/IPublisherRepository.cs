@@ -11,5 +11,6 @@ namespace WebAPI_simple.Repositories
         PublisherNoIdDTO UpdatePublisherById(int id, PublisherNoIdDTO publisherNoIdDTO);
         Publisher? DeletePublisherById(int id);
         PublisherWithBooksAndAuthorsDTO? GetBooksByPublisherId(int id);
+        bool PublisherNameExists(string name, int? excludeId = null);
     }
 }

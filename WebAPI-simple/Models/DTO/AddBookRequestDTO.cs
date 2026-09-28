@@ -4,8 +4,8 @@ namespace WebAPI_simple.Models.DTO
 {
     public class AddBookRequestDTO
     {
-        [Required]
-        [MinLength(10)]
+        [Required(ErrorMessage = "Title không được để trống")]
+        [MinLength(10, ErrorMessage = "Title tối thiểu 10 ký tự")]
         public string? Title { get; set; }
 
         public string? Description { get; set; }

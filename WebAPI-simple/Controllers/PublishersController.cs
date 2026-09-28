@@ -39,6 +39,11 @@ namespace WebAPI_simple.Controllers
         [HttpPost("add-publisher")]
         public IActionResult AddPublisher([FromBody] AddPublisherRequestDTO addPublisherRequestDTO)
         {
+            if (!ValidatePublisherName(addPublisherRequestDTO?.Name))
+            {
+                return BadRequest(ModelState);
+            }
+
             var publisherAdd = _publisherRepository.AddPublisher(addPublisherRequestDTO);
             return Ok(publisherAdd);
         }
@@ -46,6 +51,11 @@ namespace WebAPI_simple.Controllers
         [HttpPut("update-publisher-by-id/{id}")]
         public IActionResult UpdatePublisherById(int id, [FromBody] PublisherNoIdDTO publisherDTO)
         {
+            if (!ValidatePublisherName(publisherDTO?.Name, id))
+            {
+                return BadRequest(ModelState);
+            }
+
             var publisherUpdate = _publisherRepository.UpdatePublisherById(id, publisherDTO);
             return Ok(publisherUpdate);
         }
@@ -66,5 +76,23 @@ namespace WebAPI_simple.Controllers
             }
             return Ok(result);
         }
+        #region Private methods
+        private bool ValidatePublisherName(string? name, int? excludeId = null)
+        {
+            //kh đc để trống
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                ModelState.AddModelError("Name", "Name cannot be empty");
+                return false;
+            }
+            //3.kh đc trùng tên với NXB khác
+            var isDuplicate = _dbContext.Publishers.Any(p => p.Name == name.Trim() && (excludeId == null || p.Id != excludeId));
+            if (isDuplicate)
+            {
+                ModelState.AddModelError("Name", $"Publisher name '{name}' already exists");
+            }
+            return ModelState.ErrorCount == 0;
+        }
+        #endregion
     }
 }

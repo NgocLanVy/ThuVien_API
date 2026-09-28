@@ -4,6 +4,7 @@ using WebAPI_simple.CustomActionFilter;
 using WebAPI_simple.Data;
 using WebAPI_simple.Models.DTO;
 using WebAPI_simple.Repositories;
+using System.Text.RegularExpressions;
 
 namespace WebAPI_simple.Controllers
 {
@@ -57,6 +58,10 @@ namespace WebAPI_simple.Controllers
         [HttpPut("update-book-by-id/{id}")]
         public IActionResult UpdateBookById(int id, [FromBody] AddBookRequestDTO bookDTO)
         {
+            if (!ValidateAddBook(bookDTO))
+            {
+                return BadRequest(ModelState);
+            }
             var updateBook = _bookRepository.UpdateBookById(id, bookDTO);
             return Ok(updateBook);
         }
@@ -72,20 +77,38 @@ namespace WebAPI_simple.Controllers
         {
             if (addBookRequestDTO == null)
             {
-                ModelState.AddModelError(nameof(addBookRequestDTO), $"Please add book data");
+                ModelState.AddModelError(nameof(addBookRequestDTO), "Please add book data");
                 return false;
             }
-            // kiem tra Description NotNull
+            //1.Title không được rỗng
+            if (string.IsNullOrWhiteSpace(addBookRequestDTO.Title))
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.Title),
+                    $"{nameof(addBookRequestDTO.Title)} cannot be empty");
+            }
+            //1.Title không được chứa ký tự đặc biệt (chỉ cho phép chữ, số, khoảng trắng)
+            else if (!Regex.IsMatch(addBookRequestDTO.Title, @"^[\p{L}\p{N}\s]+$"))
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.Title),
+                    $"{nameof(addBookRequestDTO.Title)} cannot contain special characters");
+            }
+            //ktra Description NotNull
             if (string.IsNullOrEmpty(addBookRequestDTO.Description))
             {
                 ModelState.AddModelError(nameof(addBookRequestDTO.Description),
                     $"{nameof(addBookRequestDTO.Description)} cannot be null");
             }
-            // kiem tra rating (0,5)
+            //ktra rating (0,5)
             if (addBookRequestDTO.Rate < 0 || addBookRequestDTO.Rate > 5)
             {
                 ModelState.AddModelError(nameof(addBookRequestDTO.Rate),
                     $"{nameof(addBookRequestDTO.Rate)} cannot be less than 0 and more than 5");
+            }
+            //4.PublisherID phải tồn tại trong bảng Publishers
+            if (!_dbContext.Publishers.Any(p => p.Id == addBookRequestDTO.PublisherID))
+            {
+                ModelState.AddModelError(nameof(addBookRequestDTO.PublisherID),
+                    $"PublisherID {addBookRequestDTO.PublisherID} does not exist");
             }
             if (ModelState.ErrorCount > 0)
             {
