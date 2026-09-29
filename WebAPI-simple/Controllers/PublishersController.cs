@@ -19,12 +19,11 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpGet("get-all-publisher")]
-        public IActionResult GetAllPublisher()
+        public IActionResult GetAllPublisher([FromQuery] string? filterOn, [FromQuery] string? filterQuery,[FromQuery] string? sortBy, [FromQuery] bool isAscending = true, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
         {
-            var allPublishers = _publisherRepository.GetAllPublishers();
+            var allPublishers = _publisherRepository.GetAllPublishers(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allPublishers);
         }
-
         [HttpGet("get-publisher-by-id/{id}")]
         public IActionResult GetPublisherById(int id)
         {

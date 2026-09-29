@@ -19,9 +19,9 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpGet("get-all-author")]
-        public IActionResult GetAllAuthor()
+        public IActionResult GetAllAuthor([FromQuery] string? filterOn, [FromQuery] string? filterQuery,[FromQuery] string? sortBy, [FromQuery] bool isAscending = true,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
         {
-            var allAuthors = _authorRepository.GetAllAuthors();
+            var allAuthors = _authorRepository.GetAllAuthors(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
             return Ok(allAuthors);
         }
 

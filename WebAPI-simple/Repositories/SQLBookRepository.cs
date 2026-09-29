@@ -35,6 +35,18 @@ namespace WebAPI_simple.Repositories
                 {
                     allBooks = allBooks.Where(x => x.Title.Contains(filterQuery));
                 }
+                else if (filterOn.Equals("description", StringComparison.OrdinalIgnoreCase))
+                {
+                    allBooks = allBooks.Where(x => x.Description != null && x.Description.Contains(filterQuery));
+                }
+                else if (filterOn.Equals("rate", StringComparison.OrdinalIgnoreCase))
+                {
+                    //Rate là số, nên phải chuyển filterQuery (chuỗi) => int trc khi ss
+                    if (int.TryParse(filterQuery, out int rateValue))
+                    {
+                        allBooks = allBooks.Where(x => x.Rate == rateValue);
+                    }
+                }
             }
             // sorting
             if (string.IsNullOrWhiteSpace(sortBy) == false)
