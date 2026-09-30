@@ -22,6 +22,7 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpGet("get-all-books")]
+        [Authorize(Roles = "Read")]
         public IActionResult GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,[FromQuery] string? sortBy, [FromQuery] bool isAscending = true,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 100)
         {
             // su dung repository pattern
@@ -31,6 +32,7 @@ namespace WebAPI_simple.Controllers
 
         [HttpGet]
         [Route("get-book-by-id/{id}")]
+        [Authorize(Roles = "Read")]
         public IActionResult GetBookById([FromRoute] int id)
         {
             var bookWithIdDTO = _bookRepository.GetBookById(id);
@@ -43,7 +45,7 @@ namespace WebAPI_simple.Controllers
 
         [HttpPost("add-book")]
         [ValidateModel]
-        //[Authorize(Roles = "Write")]
+        [Authorize(Roles = "Write")]
         public IActionResult AddBook([FromBody] AddBookRequestDTO addBookRequestDTO)
         {
             // validate request
@@ -56,6 +58,7 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpPut("update-book-by-id/{id}")]
+        [Authorize(Roles = "Write")]
         public IActionResult UpdateBookById(int id, [FromBody] AddBookRequestDTO bookDTO)
         {
             if (!ValidateAddBook(bookDTO))
@@ -67,6 +70,7 @@ namespace WebAPI_simple.Controllers
         }
 
         [HttpDelete("delete-book-by-id/{id}")]
+        [Authorize(Roles = "Write")]
         public IActionResult DeleteBookById(int id)
         {
             var deleteBook = _bookRepository.DeleteBookById(id);
