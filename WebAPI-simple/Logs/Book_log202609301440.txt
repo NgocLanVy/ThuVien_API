@@ -1,0 +1,42 @@
+2026-09-30 14:40:04.816 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7127/api/User/Login - application/json 62
+2026-09-30 14:40:04.909 +07:00 [INF] Executing endpoint 'WebAPI_simple.Controllers.UserController.Login (WebAPI-simple)'
+2026-09-30 14:40:04.945 +07:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(WebAPI_simple.Models.DTO.LoginRequestDTO) on controller WebAPI_simple.Controllers.UserController (WebAPI-simple).
+2026-09-30 14:40:07.347 +07:00 [INF] Executed DbCommand (73ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-09-30 14:40:07.704 +07:00 [INF] Executed DbCommand (9ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2026-09-30 14:40:07.752 +07:00 [INF] Executing OkObjectResult, writing value of type 'WebAPI_simple.Models.DTO.LoginResponseDTO'.
+2026-09-30 14:40:07.769 +07:00 [INF] Executed action WebAPI_simple.Controllers.UserController.Login (WebAPI-simple) in 2814.0252ms
+2026-09-30 14:40:07.772 +07:00 [INF] Executed endpoint 'WebAPI_simple.Controllers.UserController.Login (WebAPI-simple)'
+2026-09-30 14:40:07.784 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7127/api/User/Login - 200 null application/json; charset=utf-8 2968.7238ms
+2026-09-30 14:40:26.259 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7127/api/Books/delete-book-by-id/3 - null null
+2026-09-30 14:40:26.341 +07:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Write)
+2026-09-30 14:40:26.350 +07:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-09-30 14:40:26.352 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7127/api/Books/delete-book-by-id/3 - 403 0 null 93.1789ms
+2026-09-30 14:40:41.835 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7127/api/User/Login - application/json 64
+2026-09-30 14:40:41.843 +07:00 [INF] Executing endpoint 'WebAPI_simple.Controllers.UserController.Login (WebAPI-simple)'
+2026-09-30 14:40:41.846 +07:00 [INF] Route matched with {action = "Login", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(WebAPI_simple.Models.DTO.LoginRequestDTO) on controller WebAPI_simple.Controllers.UserController (WebAPI-simple).
+2026-09-30 14:40:41.946 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2026-09-30 14:40:42.082 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2026-09-30 14:40:42.088 +07:00 [INF] Executing OkObjectResult, writing value of type 'WebAPI_simple.Models.DTO.LoginResponseDTO'.
+2026-09-30 14:40:42.091 +07:00 [INF] Executed action WebAPI_simple.Controllers.UserController.Login (WebAPI-simple) in 243.009ms
+2026-09-30 14:40:42.096 +07:00 [INF] Executed endpoint 'WebAPI_simple.Controllers.UserController.Login (WebAPI-simple)'
+2026-09-30 14:40:42.100 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7127/api/User/Login - 200 null application/json; charset=utf-8 264.9589ms
+2026-09-30 14:40:59.427 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7127/api/Books/get-all-books?isAscending=true&pageNumber=1&pageSize=100 - null null
+2026-09-30 14:40:59.437 +07:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Read)
+2026-09-30 14:40:59.438 +07:00 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-09-30 14:40:59.441 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7127/api/Books/get-all-books?isAscending=true&pageNumber=1&pageSize=100 - 403 0 null 13.4634ms

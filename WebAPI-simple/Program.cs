@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,16 @@ using WebAPI_simple.Data;
 using WebAPI_simple.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+var _logger = new LoggerConfiguration()
+    .WriteTo.Console() // ghi ra console
+    .WriteTo.File("Logs/Book_log.txt", rollingInterval: RollingInterval.Minute) // ghi ra file lưu trong thư mục Logs
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(_logger);
 
 // Add services to the container.
 builder.Services.AddControllers();
