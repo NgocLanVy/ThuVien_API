@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebAPI_simple.Data;
 using WebAPI_simple.Repositories;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,8 @@ builder.Services.AddScoped<IBookRepository, SQLBookRepository>();
 builder.Services.AddScoped<IAuthorRepository, SQLAuthorRepository>();
 builder.Services.AddScoped<IPublisherRepository, SQLPublisherRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 // Identity
 builder.Services.AddIdentityCore<IdentityUser>()
@@ -112,7 +115,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+var imagesPath = Path.Combine(AppContext.BaseDirectory, "Images");
+Directory.CreateDirectory(imagesPath);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(imagesPath),
+    RequestPath = "/Images"
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
